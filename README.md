@@ -15,3 +15,9 @@ postprocessing of RIAT+ output
 |sankey_riat.R|Sankey plot of cost allocation in a scenario|
 |table_measures.R|summary tables of measures (MUST BE CHECKED)|
 |unbias_riat.R|unbias AQI output|
+
+
+## additional content
+
+* function to fit Nth maximum value vs annual mean https://gist.github.com/jobonaf/f20f4902942797a4a004a3a13614b261
+* function to rasterize population on a grid https://gist.github.com/jobonaf/cb3d2096a4ea2448d74f8a1e97fd21d6

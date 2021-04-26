@@ -13,7 +13,7 @@ postprocessing of RIAT+ output
 |read_riat.R|read output files|
 |recode_tech.R|rename some measures|
 |sankey_riat.R|Sankey plot of cost allocation in a scenario|
-|table_measures.R|summary tables of measures (MUST BE CHECKED)|
+|table_measures.R|summary tables of measures|
 |unbias_riat.R|unbias AQI output|
 
 

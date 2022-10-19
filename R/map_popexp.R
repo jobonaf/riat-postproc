@@ -1,3 +1,6 @@
+library(sp,lib.loc="/u/arpa/bonafeg/R/x86_64-pc-linux-gnu-library/3.5/")
+library(raster)
+
 map_popexp <- function(run = "fvg4fvg_pm10popavg_tech_nontech_2025",
                        pollutant = "PM10",
                        models = c("farm_pi","ninfa_er"),
@@ -7,11 +10,18 @@ map_popexp <- function(run = "fvg4fvg_pm10popavg_tech_nontech_2025",
   source("R/read_riat.R")
   library(dplyr)
   library(futile.logger)
+  library(glue)
   
+  flog.info(glue("Processing run {run}, {pollutant}:"))
   Dat <- NULL
   for (yy in refyears) {
     for (mm in models) {
       for (pp in 1:5) {
+        flog.info(glue("year {yy}, model {mm}, point {pp}"))
+        cost <- read_activity_details_xls(filein=glue("data/data_prepair_{mm}/run/{run}/AD{pp}.xls")) %>% 
+          filter(`CostOverCle[M€]`>0) %>% 
+          summarize(Cost=sum(`CostOverCle[M€]`)) 
+        cost <- cost$Cost
         unbias_aqi(baseyear=yy,
                    run=run,
                    model=mm,
@@ -19,16 +29,14 @@ map_popexp <- function(run = "fvg4fvg_pm10popavg_tech_nontech_2025",
                    pollutant=pollutant) %>%
           calc_popexp(.) %>%
           mutate(Model=mm, BaseYear=yy, Point=pp, Run=run, Pollutant=pollutant) %>%
-          mutate(Cost=read_activity_details_xls(filein=glue("data/data_prepair_{mm}/run/{run}/AD{pp}.xls")) %>% 
-                   filter(`CostOverCle[M€]`>0) %>% 
-                   summarize(Cost=sum(`CostOverCle[M€]`)) %>%
-                   unlist %>% unname %>% c) %>%
+          mutate(Cost=cost) %>%
           bind_rows(Dat) -> Dat
       }
     }
   }
   
   # manage interannual variability
+  flog.info("Analyzing interannual variability")
   ny <- length(unique(Dat$BaseYear))*length(unique(Dat$Model))
   Dat %>% 
     filter(When=="After",Pop>0) %>%
@@ -43,13 +51,16 @@ map_popexp <- function(run = "fvg4fvg_pm10popavg_tech_nontech_2025",
   pDat$rangeCost <- fct_reorder(pDat$rangeCost, pDat$minCost, min)
   
   # read region
+  flog.info("Preparing for plotting")
   library(maptools)
   library(ggplot2)
+  library(rgeos)
   fvg <- readShapePoly("/lustre/arpa/bonafeg/data/geo/LimitiAmministrativi/FVG_UTM33/FVG_conSappada_UTM33")
+  fvg <- gSimplify(fvg,tol = 1000,topologyPreserve = T)
   fvg <- fortify(fvg)
   
   # plot
-  library(glue)
+  flog.info("Plotting the maps")
   source("~/src/rutilante/R/gg_themes.R")
   fileout <- glue("scenarios_{pollutant}_{run}.pdf")
   pdf(fileout, width=10,height=8)
@@ -80,8 +91,8 @@ map_popexp <- function(run = "fvg4fvg_pm10popavg_tech_nontech_2025",
 }
 
 
-#map_popexp(run = "fvg4fvg_pm10popavg_tech_nontech_2025")
-#map_popexp(run = "fvg4fvg_pm10popavg_tech_2025")
-#map_popexp(run = "bpa4fvg_pm10popavg_tech_nontech_2025")
+map_popexp(run = "fvg4fvg_pm10popavg_tech_nontech_2025")
+map_popexp(run = "fvg4fvg_pm10popavg_tech_2025")
+map_popexp(run = "bpa4fvg_pm10popavg_tech_nontech_2025")
 map_popexp(run = "bpa4fvg_pm10popavg_tech_2025")
 

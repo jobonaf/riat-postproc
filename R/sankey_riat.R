@@ -85,37 +85,53 @@ plot_sankey <- function(dat,
 
 source("/u/arpa/bonafeg/src/rutilante/R/gg_themes.R")
 
-read_activity_details_xls(paste0("data/data_prepair_ninfa_er/run/fvg4fvg_pm10popavg_tech_2025/AD3.xls")) %>%
+read_activity_details_xls(paste0("data/data_prepair_ninfa_er/run/fvg4fvg_pm10popavg_tech_2025/AD4.xls")) %>%
   prepare_sankey(.) %>%
   plot_sankey(.,title="{NULL}",
               subtitle=paste0("AQI: PM10, population averaged\ntarget area: FVG\n",
                               "domain of intervention: FVG (technical measures only)",
                               "\nyear: 2025\ncost: {sum(dat$Cost)} MEUR\nmodel: ninfa_er"))%>%
-  ggsave_fvg(.,filename="sankey_fvg4fvg_pm10_Tec_2025_p3_ninfa_er.pdf",width=8,height=5)
+  ggsave_fvg(.,filename="sankey_fvg4fvg_pm10_Tec_2025_p4_ninfa_er.pdf",width=8,height=5)
 
-read_activity_details_xls(paste0("data/data_prepair_farm_pi/run/fvg4fvg_pm10popavg_tech_2025/AD3.xls")) %>%
+read_activity_details_xls(paste0("data/data_prepair_farm_pi/run/fvg4fvg_pm10popavg_tech_2025/AD4.xls")) %>%
   prepare_sankey(.) %>%
   plot_sankey(.,title="{NULL}",
               subtitle=paste0("AQI: PM10, population averaged\ntarget area: FVG\n",
                               "domain of intervention: FVG (technical measures only)",
                               "\nyear: 2025\ncost: {sum(dat$Cost)} MEUR\nmodel: farm_pi"))%>%
-  ggsave_fvg(.,filename="sankey_fvg4fvg_pm10_Tec_2025_p3_farm_pi.pdf",width=8,height=5)
+  ggsave_fvg(.,filename="sankey_fvg4fvg_pm10_Tec_2025_p4_farm_pi.pdf",width=8,height=5)
 
-read_activity_details_xls(paste0("data/data_prepair_ninfa_er/run/bpa4fvg_pm10popavg_tech_2025/AD3.xls")) %>%
+read_activity_details_xls(paste0("data/data_prepair_ninfa_er/run/fvg4fvg_pm10popavg_tech_nontech_2025/AD4.xls")) %>%
   prepare_sankey(.) %>%
   plot_sankey(.,title="{NULL}",
               subtitle=paste0("AQI: PM10, population averaged\ntarget area: FVG\n",
-                              "domain of intervention: Po Valley (technical measures only)",
+                              "domain of intervention: FVG (technical and non-technical measures)",
                               "\nyear: 2025\ncost: {sum(dat$Cost)} MEUR\nmodel: ninfa_er"))%>%
-  ggsave_fvg(.,filename="sankey_bpa4fvg_pm10_Tec_2025_p3_ninfa_er.pdf",width=8,height=5)
+  ggsave_fvg(.,filename="sankey_fvg4fvg_pm10_TNT_2025_p4_ninfa_er.pdf",width=8,height=5)
 
-read_activity_details_xls(paste0("data/data_prepair_farm_pi/run/bpa4fvg_pm10popavg_tech_2025/AD3.xls")) %>%
+read_activity_details_xls(paste0("data/data_prepair_farm_pi/run/fvg4fvg_pm10popavg_tech_nontech_2025/AD4.xls")) %>%
   prepare_sankey(.) %>%
   plot_sankey(.,title="{NULL}",
               subtitle=paste0("AQI: PM10, population averaged\ntarget area: FVG\n",
-                              "domain of intervention: Po Valley (technical measures only)",
+                              "domain of intervention: FVG (technical and non-technical measures)",
                               "\nyear: 2025\ncost: {sum(dat$Cost)} MEUR\nmodel: farm_pi"))%>%
-  ggsave_fvg(.,filename="sankey_bpa4fvg_pm10_Tec_2025_p3_farm_pi.pdf",width=8,height=5)
+  ggsave_fvg(.,filename="sankey_fvg4fvg_pm10_TNT_2025_p4_farm_pi.pdf",width=8,height=5)
+
+# read_activity_details_xls(paste0("data/data_prepair_ninfa_er/run/bpa4fvg_pm10popavg_tech_2025/AD3.xls")) %>%
+#   prepare_sankey(.) %>%
+#   plot_sankey(.,title="{NULL}",
+#               subtitle=paste0("AQI: PM10, population averaged\ntarget area: FVG\n",
+#                               "domain of intervention: Po Valley (technical measures only)",
+#                               "\nyear: 2025\ncost: {sum(dat$Cost)} MEUR\nmodel: ninfa_er"))%>%
+#   ggsave_fvg(.,filename="sankey_bpa4fvg_pm10_Tec_2025_p3_ninfa_er.pdf",width=8,height=5)
+# 
+# read_activity_details_xls(paste0("data/data_prepair_farm_pi/run/bpa4fvg_pm10popavg_tech_2025/AD3.xls")) %>%
+#   prepare_sankey(.) %>%
+#   plot_sankey(.,title="{NULL}",
+#               subtitle=paste0("AQI: PM10, population averaged\ntarget area: FVG\n",
+#                               "domain of intervention: Po Valley (technical measures only)",
+#                               "\nyear: 2025\ncost: {sum(dat$Cost)} MEUR\nmodel: farm_pi"))%>%
+#   ggsave_fvg(.,filename="sankey_bpa4fvg_pm10_Tec_2025_p3_farm_pi.pdf",width=8,height=5)
 
 
 

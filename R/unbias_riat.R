@@ -41,16 +41,22 @@ unbias_aqi <- function(baseyear=2015,
 calc_popexp <- function(dat,
                         files.eqthr=c("PM10.mean-vs-rank36.2009-2018.rds",
                                       "PM10.mean-vs-rank4.2009-2018.rds"),
-                        yave_threshold=40) {
+                        yave_thresholds=c(70,50,40,30,20,15)) {
   # read population
   flog.info("Reading population")
   pop <- readRDS("/lustre/arpa/bonafeg/data/geo/Popolazione/Pop_FARMFVG_2km.rds")
   
-  # read equivalent thresholds
-  flog.info("Reading equivalent thresholds")
+  # annual average thresholds
+  flog.info("Annual average thresholds")
   library(dplyr)
   library(glue)
-  eqthr <- data.frame(Index="annual average", threshold=yave_threshold, thr.eq.yave=yave_threshold)
+  eqthr <- NULL
+  for (yat in yave_thresholds) {
+    eqthr <- bind_rows(eqthr, data.frame(Index="annual average", threshold=yat, thr.eq.yave=yat))
+  }
+  
+  # read equivalent thresholds
+  flog.info("Reading equivalent thresholds")
   for (ff in files.eqthr) {
     m2r <- readRDS(glue("/lustre/arpa/bonafeg/scratch/stat-aq-obs/out/mean-vs-rank/{ff}"))
     eqthr <- bind_rows(eqthr, data.frame(Index=glue("{m2r$N}th highest"), threshold=m2r$thresholds_Nth, thr.eq.yave=m2r$thresholds_yave))

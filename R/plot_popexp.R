@@ -68,7 +68,12 @@ ggplot(data=pDat, mapping = aes(x=medCost, y=medExpPop, col=Run)) +
   scale_x_sqrt(breaks=c(0,10,20,50,100,200,500), name="cost (MEUR)") +
   scale_y_continuous(breaks=c(0,10,20,50,100,200,500)*10^3, name="exposed population", 
                labels=scales::number) +
+  scale_color_discrete(name=NULL)+
+  guides(color=guide_legend(ncol=1))+
   theme_fvg()+
-  theme(panel.grid.major = element_line(colour="grey80",size=0.15))-> p
+  theme(panel.grid.major = element_line(colour="grey80",size=0.15),
+        legend.position=c(1,1),
+        legend.justification = c(1,1),
+        legend.background = element_rect(colour = "transparent", fill = "transparent"))-> p
 fileout <- glue("scenarios_{pollutant}_summary.pdf")
-ggsave_fvg(p, filename = fileout, width=7, height=4)
+ggsave_fvg(p, filename = fileout, width=6, height=4)

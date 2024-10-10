@@ -15,6 +15,7 @@ postprocessing of RIAT+ output
 |sankey_riat.R|Sankey plot of cost allocation in a scenario|
 |table_measures.R|summary tables of measures|
 |unbias_riat.R|unbias AQI output|
+|prepare_scenario_reductions.R|prepare input files *.emrd for aggregated scenario|
 
 
 ## additional content

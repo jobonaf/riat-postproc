@@ -44,7 +44,7 @@ calc_popexp <- function(dat,
                         yave_thresholds=c(70,50,40,30,20,15)) {
   # read population
   flog.info("Reading population")
-  pop <- readRDS("/lustre/arpa/bonafeg/data/geo/Popolazione/Pop_FARMFVG_2km.rds")
+  pop <- readRDS("/atlas/arpa/bonafeg/data/geo/Popolazione/Pop_FARMFVG_2km.rds")
   
   # annual average thresholds
   flog.info("Annual average thresholds")
@@ -58,7 +58,7 @@ calc_popexp <- function(dat,
   # read equivalent thresholds
   flog.info("Reading equivalent thresholds")
   for (ff in files.eqthr) {
-    m2r <- readRDS(glue("/lustre/arpa/bonafeg/scratch/stat-aq-obs/out/mean-vs-rank/{ff}"))
+    m2r <- readRDS(glue("/atlas/arpa/bonafeg/etc/stat-aq-obs/out/mean-vs-rank/{ff}"))
     eqthr <- bind_rows(eqthr, data.frame(Index=glue("{m2r$N}th highest"), threshold=m2r$thresholds_Nth, thr.eq.yave=m2r$thresholds_yave))
   }
   

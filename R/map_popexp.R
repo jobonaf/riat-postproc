@@ -55,7 +55,7 @@ map_popexp <- function(run = "fvg4fvg_pm10popavg_tech_nontech_2025",
   library(maptools)
   library(ggplot2)
   library(rgeos)
-  fvg <- readShapePoly("/lustre/arpa/bonafeg/data/geo/LimitiAmministrativi/FVG_UTM33/FVG_conSappada_UTM33")
+  fvg <- readShapePoly("/atlas/arpa/bonafeg/data/geo/LimitiAmministrativi/FVG_UTM33/FVG_conSappada_UTM33")
   fvg <- gSimplify(fvg,tol = 1000,topologyPreserve = T)
   fvg <- fortify(fvg)
   

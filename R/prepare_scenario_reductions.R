@@ -32,7 +32,7 @@ write_reduction <- function(
     left_join(dat) %>%
     select(ms,type,pollutant,reduction) %>%
     replace_na(list(reduction=na_repl)) %>%
-    mutate(reduction=paste0("{",round(reduction*100,digits),"}")) %>%
+    mutate(reduction=paste0("{",round(-reduction*100,digits),"}")) %>%
     pivot_wider(names_from = c(type,pollutant), values_from = reduction) %>%
     mutate(ms=paste0("{ms",ms,"}"))
   redu <- paste(paste0("{",apply(df,1,paste,collapse="",sep=""),"}"), 

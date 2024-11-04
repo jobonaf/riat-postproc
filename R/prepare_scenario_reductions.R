@@ -3,15 +3,16 @@ library(dplyr)
 
 read_reduction <- function(
     region="FRIULI", 
-    filein="~/src/riat-postproc/data/reductionPNIEC2030/red_PNIEC2030vsBASE2013.xlsx") {
-  dat <- read_excel(filein, sheet = region, col_names = F)
+    filein="~/src/riat-postproc/data/reductionPNIEC2030/red_PNIEC2030vsBASE2013.xlsx",
+    cols=c(14,28), rows=c(3,19,35)) {
+  dat <- read_excel(filein, sheet = region, col_names = F, col_types = "numeric")
   df <- bind_rows(
-    tibble(reduction=unname(unlist(dat[ 3+0:9,14])), region=region, ms=1:10, pollutant="SO2"),
-    tibble(reduction=unname(unlist(dat[19+0:9,14])), region=region, ms=1:10, pollutant="NOx"),
-    tibble(reduction=unname(unlist(dat[35+0:9,14])), region=region, ms=1:10, pollutant="NH3"),
-    tibble(reduction=unname(unlist(dat[ 3+0:9,28])), region=region, ms=1:10, pollutant="PM10"),
-    tibble(reduction=unname(unlist(dat[19+0:9,28])), region=region, ms=1:10, pollutant="PM25"),
-    tibble(reduction=unname(unlist(dat[35+0:9,28])), region=region, ms=1:10, pollutant="VOC"))
+    tibble(reduction=unname(unlist(dat[rows[1]+0:9,cols[1]])), region=region, ms=1:10, pollutant="SO2"),
+    tibble(reduction=unname(unlist(dat[rows[2]+0:9,cols[1]])), region=region, ms=1:10, pollutant="NOx"),
+    tibble(reduction=unname(unlist(dat[rows[3]+0:9,cols[1]])), region=region, ms=1:10, pollutant="NH3"),
+    tibble(reduction=unname(unlist(dat[rows[1]+0:9,cols[2]])), region=region, ms=1:10, pollutant="PM10"),
+    tibble(reduction=unname(unlist(dat[rows[2]+0:9,cols[2]])), region=region, ms=1:10, pollutant="PM25"),
+    tibble(reduction=unname(unlist(dat[rows[3]+0:9,cols[2]])), region=region, ms=1:10, pollutant="VOC"))
   df
 }
 
@@ -44,9 +45,22 @@ write_reduction <- function(
   close(fileout)
 }
 
-filexl <- "~/src/riat-postproc/data/reductionPNIEC2030/red_PNIEC2030vsBASE2013.xlsx"
+# PNIEC2030 vs Prepair2013
+# filexl <- "~/src/riat-postproc/data/reductionPNIEC2030/red_PNIEC2030vsPrepair2013.xlsx"
+# sheets <- excel_sheets(filexl)
+# for (s in sheets) {
+#   read_reduction(region = s, filein = filexl) %>%
+#     write_reduction(dat = ., name = glue("PNIEC2030vsBASE2013_{s}"))
+# }
+
+# PNIEC2030 vs CleEnea
+filexl <- "~/src/riat-postproc/data/reductionPNIEC2030/red_PNIEC2030vsCleEnea.xlsx"
 sheets <- excel_sheets(filexl)
-for (s in sheets) {
-  read_reduction(region = s, filein = filexl) %>%
-    write_reduction(dat = ., name = glue("PNIEC2030vsBASE2013_{s}"))
+base <- list(name=paste0("ENEA",c(2015,2010,2025)), cols=cbind(15:17,32:34))
+for (i in 1:3) {
+  for (s in sheets) {
+    read_reduction(region = s, filein = filexl, cols = base$cols[i,]) %>%
+      write_reduction(dat = ., name = glue("PNIEC2030vs{base$name[i]}_{s}"))
+  }
 }
+

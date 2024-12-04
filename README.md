@@ -5,7 +5,7 @@ postprocessing of RIAT+ output
 
 | file name | description |
 |-----------|-------------|
-|map_popexp.R|maps of population exposure  |
+|map_popexp.R|maps of population exposure|
 |plot_costs.R|barplot of costs|
 |plot_emissions.R|barplot of emission reductions|
 |plot_measures.R|detailed plot of main measures selected|
@@ -16,6 +16,9 @@ postprocessing of RIAT+ output
 |table_measures.R|summary tables of measures|
 |unbias_riat.R|unbias AQI output|
 |prepare_scenario_reductions.R|prepare input files *.emrd for aggregated scenario|
+|map_aqi.R|plot AQI maps|
+|write_aqi.R|write AQI into CSV file|
+|aqi_spatial_synthesis.R|average AQI on regions, provinces and main cities|
 
 
 ## additional content

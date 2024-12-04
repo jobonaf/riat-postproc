@@ -31,13 +31,15 @@ cc_ll %>%
 spat_mean <- function(dat, colname, ndigits=2) {
   dat %>% 
     mutate(LevelType=colname, Level=!!sym(colname)) %>%
-    select(value,Level,LevelType) %>%
+    select(aqi_base,aqi_scenario,Level,LevelType) %>%
     st_drop_geometry() %>%
     group_by(LevelType,Level) %>%
-    summarize(value=mean(value,na.rm=T)) %>%
+    summarize(aqi_base=mean(aqi_base,na.rm=T),
+              aqi_scenario=mean(aqi_scenario,na.rm=T)) %>%
     ungroup() %>%
-    filter(!is.na(value), !is.na(Level)) %>%
-    mutate(value=round(value,ndigits)) 
+    filter(!is.na(aqi_base+aqi_scenario), !is.na(Level)) %>%
+    mutate(aqi_base=round(aqi_base,ndigits),
+           aqi_scenario=round(aqi_scenario,ndigits)) 
 }
 
 # calculate averages
@@ -68,14 +70,27 @@ spat_synthesis <- function(
 
 # iterate calculations over all models, runs, pollutants
 Dat <- bind_rows(
-  spat_synthesis(model="ninfa_er", poll="PM10", run="pniec2030a", spdat=spdat),
-  spat_synthesis(model="ninfa_er", poll="NO2",  run="pniec2030a", spdat=spdat),
+  # spat_synthesis(model="ninfa_er", poll="PM10", run="pniec2030a", spdat=spdat),
+  # spat_synthesis(model="ninfa_er", poll="NO2",  run="pniec2030a", spdat=spdat),
   spat_synthesis(model="farm_pi",  poll="PM10", run="pniec2030a", spdat=spdat),
+  spat_synthesis(model="farm_pi",  poll="PM25", run="pniec2030a", spdat=spdat),
   spat_synthesis(model="farm_pi",  poll="NO2",  run="pniec2030a", spdat=spdat),
-  spat_synthesis(model="ninfa_er", poll="PM10", run="pniec2030b", spdat=spdat),
-  spat_synthesis(model="ninfa_er", poll="NO2",  run="pniec2030b", spdat=spdat),
+  # spat_synthesis(model="ninfa_er", poll="PM10", run="pniec2030b", spdat=spdat),
+  # spat_synthesis(model="ninfa_er", poll="NO2",  run="pniec2030b", spdat=spdat),
   spat_synthesis(model="farm_pi",  poll="PM10", run="pniec2030b", spdat=spdat),
-  spat_synthesis(model="farm_pi",  poll="NO2",  run="pniec2030b", spdat=spdat)
+  spat_synthesis(model="farm_pi",  poll="PM25", run="pniec2030b", spdat=spdat),
+  spat_synthesis(model="farm_pi",  poll="NO2",  run="pniec2030b", spdat=spdat),
+  # spat_synthesis(model="ninfa_er", poll="PM10", run="pniec2030c", spdat=spdat),
+  # spat_synthesis(model="ninfa_er", poll="NO2",  run="pniec2030c", spdat=spdat),
+  # spat_synthesis(model="farm_pi",  poll="PM10", run="pniec2030c", spdat=spdat),
+  # spat_synthesis(model="farm_pi",  poll="PM25", run="pniec2030c", spdat=spdat),
+  # spat_synthesis(model="farm_pi",  poll="NO2",  run="pniec2030c", spdat=spdat),
+  # spat_synthesis(model="farm_pi",  poll="PM10", run="pniec2030d", spdat=spdat),
+  # spat_synthesis(model="farm_pi",  poll="PM25", run="pniec2030d", spdat=spdat),
+  # spat_synthesis(model="farm_pi",  poll="NO2",  run="pniec2030d", spdat=spdat),
+  spat_synthesis(model="ninfa_er",  poll="PM10", run="pniec2030e", spdat=spdat),
+  spat_synthesis(model="ninfa_er",  poll="PM25", run="pniec2030e", spdat=spdat),
+  spat_synthesis(model="ninfa_er",  poll="NO2",  run="pniec2030e", spdat=spdat)
 )
 
 # for each pollutant and each spatial aggregation write CSV
@@ -84,7 +99,7 @@ for(pp in unique(Dat$Poll)) {
     fileout <- glue("out/aqi/{pp}_{ll}.csv")
     Dat %>% 
       filter(Poll==pp, LevelType==ll) %>%
-      pivot_wider(names_from = c(Run,Model), values_from = value) %>%
+      pivot_wider(names_from = c(Run,Model), values_from = c(aqi_base,aqi_scenario)) %>%
       write_csv(., file = fileout)
     flog.info(glue("Written file {fileout}"))
   }

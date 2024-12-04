@@ -1,5 +1,6 @@
 library("glue")
 library("ggplot2")
+library(dplyr)
 
 map_aqi <- function(
     model="ninfa_er", run="pniec2030a", poll="PM10", rundesc="PNIEC2030 vs PREPAIR2013",
@@ -21,11 +22,18 @@ map_aqi <- function(
   return(p)
 }
 
-map_aqi(model="ninfa_er", poll="PM10", run="pniec2030a", rundesc="PNIEC2030 vs PREPAIR2013", limits=c(0,35))
-map_aqi(model="ninfa_er", poll="NO2",  run="pniec2030a", rundesc="PNIEC2030 vs PREPAIR2013", limits=c(0,45))
-map_aqi(model="farm_pi",  poll="PM10", run="pniec2030a", rundesc="PNIEC2030 vs PREPAIR2013", limits=c(0,35))
-map_aqi(model="farm_pi",  poll="NO2",  run="pniec2030a", rundesc="PNIEC2030 vs PREPAIR2013", limits=c(0,45))
-map_aqi(model="ninfa_er", poll="PM10", run="pniec2030b", rundesc="PNIEC2030 vs ENEA2010"   , limits=c(0,35))
-map_aqi(model="ninfa_er", poll="NO2",  run="pniec2030b", rundesc="PNIEC2030 vs ENEA2010"   , limits=c(0,45))
-map_aqi(model="farm_pi",  poll="PM10", run="pniec2030b", rundesc="PNIEC2030 vs ENEA2010"   , limits=c(0,35))
-map_aqi(model="farm_pi",  poll="NO2",  run="pniec2030b", rundesc="PNIEC2030 vs ENEA2010"   , limits=c(0,45))
+# map_aqi(model="ninfa_er", poll="PM10", run="pniec2030a", rundesc="PNIEC2030 vs PREPAIR2013", limits=c(0,35))
+# map_aqi(model="ninfa_er", poll="NO2",  run="pniec2030a", rundesc="PNIEC2030 vs PREPAIR2013", limits=c(0,45))
+# map_aqi(model="farm_pi",  poll="PM10", run="pniec2030a", rundesc="PNIEC2030 vs PREPAIR2013", limits=c(0,35))
+# map_aqi(model="farm_pi",  poll="NO2",  run="pniec2030a", rundesc="PNIEC2030 vs PREPAIR2013", limits=c(0,45))
+# map_aqi(model="ninfa_er", poll="PM10", run="pniec2030b", rundesc="PNIEC2030 vs ENEA2010"   , limits=c(0,35))
+# map_aqi(model="ninfa_er", poll="NO2",  run="pniec2030b", rundesc="PNIEC2030 vs ENEA2010"   , limits=c(0,45))
+# map_aqi(model="farm_pi",  poll="PM10", run="pniec2030b", rundesc="PNIEC2030 vs ENEA2010"   , limits=c(0,35))
+# map_aqi(model="farm_pi",  poll="NO2",  run="pniec2030b", rundesc="PNIEC2030 vs ENEA2010"   , limits=c(0,45))
+
+# map_aqi(model="farm_pi",  poll="PM25", run="pniec2030a", rundesc="PNIEC2030 vs PREPAIR2013", limits=c(0,35))
+# map_aqi(model="farm_pi",  poll="PM25", run="pniec2030b", rundesc="PNIEC2030 vs ENEA2010"   , limits=c(0,35))
+
+map_aqi(model="ninfa_er", poll="NO2",  run="pniec2030e", rundesc="PNIEC2030 vs PREPAIR2017"   , limits=c(0,45))
+map_aqi(model="ninfa_er", poll="PM10",  run="pniec2030e", rundesc="PNIEC2030 vs PREPAIR2017"   , limits=c(0,35))
+map_aqi(model="ninfa_er", poll="PM25",  run="pniec2030e", rundesc="PNIEC2030 vs PREPAIR2017"   , limits=c(0,35))

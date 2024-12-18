@@ -19,6 +19,7 @@ postprocessing of RIAT+ output
 |map_aqi.R|plot AQI maps|
 |write_aqi.R|write AQI into CSV file|
 |aqi_spatial_synthesis.R|average AQI on regions, provinces and main cities|
+|prepare_eea_data.R|prepare data from EEA, as reference|
 
 
 ## additional content

@@ -18,4 +18,7 @@ for (pp in c("PM2.5","NO2")) {
   dd %>% 
     filter(nchar(`NUTS Code`)==5, `Air Pollutant`==pp) %>% 
     write_csv(., glue("out/eea/{pp}_PROVINCIA_dati_EEA.csv"))
+  dd %>% 
+    filter(nchar(`NUTS Code`)==4, `Air Pollutant`==pp) %>% 
+    write_csv(., glue("out/eea/{pp}_REGIONE_dati_EEA.csv"))
 }
